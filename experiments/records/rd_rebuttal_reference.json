@@ -1,0 +1,222 @@
+{
+  "description": "Historical NOCL-only rebuttal record. This is not a newly measured result.",
+  "source_record": "rebuttal_results/reaction_ac_same_step/nocl_dirichlet_v2_seed42/final.json",
+  "source_record_sha256": "4bf12286b8701b5ea353002dfc70f5ea8022ca13dbca84837f6adfe43bcfc119",
+  "source_sha256": {
+    "experiments/reaction/rebuttal_ac_same_step_timing.py": "9e966415332585823a6cb8614f82a5e5b5f1667a14655c02f03e56010ca49ebb",
+    "experiments/jaxpi/FNO_2D.py": "2f1df0e52533c42118a91b353822893dc87e88b296348d642b8dc529860cfdff"
+  },
+  "protocol": {
+    "curriculum": {
+      "all_25_nus": [
+        0.0,
+        0.1111111111111111,
+        0.2222222222222222,
+        0.3333333333333333,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.6666666666666666,
+        0.7777777777777777,
+        0.8888888888888888,
+        1.0,
+        1.2,
+        1.4,
+        1.6,
+        1.8,
+        2.0,
+        2.2,
+        2.4,
+        2.6,
+        2.8,
+        3.0,
+        3.2,
+        3.4,
+        3.6,
+        3.8,
+        4.0
+      ],
+      "initial_nus": [
+        0.0,
+        0.1111111111111111,
+        0.2222222222222222,
+        0.3333333333333333,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.6666666666666666,
+        0.7777777777777777,
+        0.8888888888888888,
+        1.0
+      ],
+      "stages": [
+        {
+          "count": 5,
+          "high": 2.0,
+          "low": 1.0
+        },
+        {
+          "count": 5,
+          "high": 3.0,
+          "low": 2.0
+        },
+        {
+          "count": 5,
+          "high": 4.0,
+          "low": 3.0
+        }
+      ]
+    },
+    "evaluation": {
+      "grid": [
+        1280,
+        1280
+      ],
+      "reference": "deterministic Strang splitting: exact logistic reaction and sine-spectral Dirichlet diffusion",
+      "reference_boundary_condition": "u(0,t)=u(1,t)=0",
+      "training_reference_boundary_consistent": true
+    },
+    "executed_counts": {
+      "fno_steps": 9000,
+      "physical_steps": 1250000,
+      "warmup_steps": 150000
+    },
+    "fno_training": {
+      "batch_size": "all when <=16, otherwise 16 without replacement",
+      "full_steps_per_stage": 3000,
+      "optimizer": "AdamW(weight_decay=0)",
+      "optimizer_state_reset_each_macro_stage": true,
+      "parameters_inherited_across_macro_stages": true,
+      "schedule": {
+        "decay_rate": 0.95,
+        "init_value": 0.001,
+        "transition_steps": 100
+      }
+    },
+    "full_counts": {
+      "fno_steps": 9000,
+      "physical_steps": 1250000,
+      "warmup_steps": 150000
+    },
+    "method": "nocl",
+    "method_structure": {
+      "fno_stages": 3,
+      "physical_blocks": 25,
+      "structural_pinn_initializations": 25,
+      "warmup_targets": 15
+    },
+    "mode": "full",
+    "model": {
+      "fno": "FNO2D, modes=16, channels=64, depth=8",
+      "operator_grid": [
+        128,
+        128
+      ],
+      "operator_parameter_input": "[nu, rho]",
+      "pinn": "MLP, 4 hidden layers, width 64, tanh"
+    },
+    "optimizer_policy": {
+      "no_artificial_reset": true,
+      "nocl": "optimizer/LR initialized only when the method creates a new independent PINN"
+    },
+    "pde": {
+      "boundary_condition_status": "explicit homogeneous-Dirichlet protocol completion",
+      "equation": "u_t - nu*u_xx - rho*u*(1-u) = 0",
+      "fixed_rho": 5.0,
+      "initial_condition": "sin(pi*x)",
+      "paper_does_not_state_spatial_boundary_condition": true,
+      "pinn_spatial_boundary_loss": "unit-weight mean squared error at both boundaries",
+      "spatial_boundary_condition": "u(0,t)=u(1,t)=0",
+      "t_domain": [
+        0.0,
+        1.0
+      ],
+      "target_nu": 4.0,
+      "training_is_causal": false,
+      "x_domain": [
+        0.0,
+        1.0
+      ]
+    },
+    "physical_optimizer": {
+      "b1": 0.9,
+      "b2": 0.999,
+      "eps": 1e-08,
+      "name": "AdamW",
+      "schedule": {
+        "decay_rate": 0.95,
+        "init_value": 0.001,
+        "name": "exponential_decay",
+        "staircase": false,
+        "transition_steps": 500
+      },
+      "weight_decay": 0.0
+    },
+    "physics_loss_weights": {
+      "initial_condition": 1.0,
+      "residual": 1.0,
+      "spatial_boundary": 1.0
+    },
+    "protocol_id": "reaction_diffusion_paper_equation_nu_global_lr_dirichlet_v2",
+    "rng_policy": {
+      "physics_index": "global physical optimizer step across the NOCL curriculum",
+      "role_ids": {
+        "compile_only": 5,
+        "fno_batch_sampling": 4,
+        "fno_initialization": 3,
+        "mlp_initialization": 1,
+        "physics_sampling": 2
+      },
+      "scheme": "nested jax.random.fold_in(base_seed, role, index)"
+    },
+    "sampling_per_physics_step": {
+      "initial_condition": 100,
+      "residual": 256,
+      "spatial_boundary": 100,
+      "spatial_boundary_layout": "50 paired time samples per side"
+    },
+    "scientifically_valid": true,
+    "seed": 42,
+    "supervised_warmup": {
+      "full_steps_per_target": 10000,
+      "mask_ratio": 0.5,
+      "mask_semantics": "lowest finite-difference PDE residual points",
+      "optimizer": "AdamW(weight_decay=0)",
+      "schedule": {
+        "decay_rate": 0.9,
+        "init_value": 0.001,
+        "transition_steps": 2500
+      },
+      "selected_points": 8192
+    },
+    "timing_policy": {
+      "accelerator_boundaries_are_synchronized": true,
+      "active_training_includes_operator_target_generation": true,
+      "end_to_end_scope": "module startup before accelerator imports through final model synchronization; excludes final JSON serialization"
+    }
+  },
+  "final_metrics": {
+    "target_nu": 4.0,
+    "target_relative_l2": 0.022305379107816534,
+    "target_rho": 5.0
+  },
+  "counts": {
+    "fno_steps": 9000,
+    "physical_steps": 1250000,
+    "warmup_steps": 150000
+  },
+  "started_at": "2026-07-23T22:08:16.229066+00:00",
+  "finished_at": "2026-07-23T22:26:04.399068+00:00",
+  "environment": {
+    "haiku": "0.0.13",
+    "jax": "0.5.0",
+    "jax_devices_visible": [
+      "cuda:0"
+    ],
+    "numpy": "2.1.3",
+    "optax": "0.2.3",
+    "platform": "Linux-6.1.0-26-amd64-x86_64-with-glibc2.36",
+    "python": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+    "requested_physical_gpu": 1,
+    "scipy": "1.14.1",
+    "timer": "time.perf_counter from before accelerator-library imports, with explicit block_until_ready at every measured accelerator boundary"
+  }
+}

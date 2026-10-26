@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nocl-minimal"
+version = "0.3.0"
+description = "Minimal NOCL experiments: convection and rebuttal reaction-diffusion"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Lingshi Meng"},
+  {name = "Haosen Shi"},
+  {name = "Sinno Jialin Pan"},
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+Repository = "https://github.com/windindicator/NOCL-NeurIPS2026"
+
+[project.optional-dependencies]
+cuda12 = [
+  "jax-cuda12-pjrt==0.5.0",
+  "jax-cuda12-plugin==0.5.0",
+  "nvidia-cublas-cu12==12.6.4.1",
+  "nvidia-cuda-cupti-cu12==12.6.80",
+  "nvidia-cuda-nvcc-cu12==12.6.77",
+  "nvidia-cuda-runtime-cu12==12.6.77",
+  "nvidia-cudnn-cu12==9.5.1.17",
+  "nvidia-cufft-cu12==11.3.0.4",
+  "nvidia-cusolver-cu12==11.7.1.2",
+  "nvidia-cusparse-cu12==12.5.4.2",
+  "nvidia-nccl-cu12==2.26.2",
+  "nvidia-nvjitlink-cu12==12.6.85",
+]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+include = ["nocl_minimal*", "experiments*"]
+
+[tool.setuptools.package-data]
+experiments = ["configs/*.json", "records/*.json"]

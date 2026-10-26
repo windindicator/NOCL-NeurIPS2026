@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "problem": "rd",
+  "rd_protocol": "reaction_diffusion_paper_equation_nu_global_lr_dirichlet_v2",
+  "seed": 42,
+  "physics_steps_per_block": 50000,
+  "warmup_steps_per_target": 10000,
+  "fno_steps_per_stage": 3000,
+  "evaluation_size": 1280
+}

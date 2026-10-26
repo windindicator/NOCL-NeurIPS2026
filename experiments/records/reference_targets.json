@@ -1,0 +1,31 @@
+{
+  "description": "Reference values used only for comparison, never for training.",
+  "targets": {
+    "convection": {
+      "source": "Main paper Figure 2, NOCL",
+      "comparison": "three_significant_digits",
+      "values": [
+        {
+          "coefficients": [
+            3.0
+          ],
+          "relative_l2": 0.097
+        }
+      ]
+    },
+    "rd": {
+      "source": "Recorded rebuttal NOCL run, seed 42, Dirichlet v2",
+      "comparison": "relative_tolerance_2e-5_absolute_tolerance_2e-7",
+      "rd_protocol": "reaction_diffusion_paper_equation_nu_global_lr_dirichlet_v2",
+      "values": [
+        {
+          "coefficients": [
+            4.0,
+            5.0
+          ],
+          "relative_l2": 0.022305379107816534
+        }
+      ]
+    }
+  }
+}

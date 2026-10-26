@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "pinn": {
+    "n_layer": 4,
+    "width": 64,
+    "output_size": 1
+  },
+  "physics": {
+    "steps": 50000,
+    "learning_rate": 0.001,
+    "transition_steps": 500,
+    "decay_rate": 0.95
+  },
+  "warmup": {
+    "steps": 10000,
+    "learning_rate": 0.001,
+    "transition_steps": 2500,
+    "decay_rate": 0.9
+  },
+  "operator": {
+    "steps": 3000,
+    "learning_rate": 0.001,
+    "transition_steps": 100,
+    "decay_rate": 0.95,
+    "architecture": {
+      "modes": 16,
+      "channels": 64,
+      "depth": 8
+    }
+  },
+  "mask_keep_ratio": 0.5,
+  "grid_size": 128,
+  "evaluation_size": 1280,
+  "problem": "convection",
+  "paper_location": "Figure 2; Appendix C.1",
+  "curriculum": {
+    "parameter": "alpha",
+    "initial": {
+      "start": 0.1,
+      "end": 1,
+      "count": 15
+    },
+    "stages": [
+      {
+        "start": 1,
+        "end": 2,
+        "count": 5
+      },
+      {
+        "start": 2,
+        "end": 3,
+        "count": 5
+      }
+    ]
+  },
+  "mask_semantics": "zero_fill_full_grid",
+  "guided_array_coefficient": true,
+  "transfer_execution": "archived_2d"
+}
